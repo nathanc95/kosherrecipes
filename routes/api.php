@@ -14,30 +14,19 @@ use App\Recipes;
 |
 */
 
-Route::get('home',function(){
-   return Recipes::all();
-});
 
-Route::get('home/{id}',function($id){
-    return Recipes::find($id);
-});
+    Route::get('recipes','RecipesController@index');
+    Route::get('recipes/{recipes}','RecipesController@show');
+    Route::post('recipes','RecipesController@store');
+    Route::put('recipes/{recipes}','RecipesController@update');
+    Route::delete('recipes/{recipes}','RecipesController@delete');
+    Route::post('register','Auth\RegisterController@register');
+    Route::post('login','Auth\LoginController@login');
+    Route::post('logout','Auth\LoginController@logout');
 
-Route::post('home', function(Request $request) {
-    return Recipes::create($request->all);
-});
 
-Route::put('home/{id}', function(Request $request, $id) {
-    $recipes = Recipes::findOrFail($id);
-    $recipes->update($request->all());
 
-    return $recipes;
-});
 
-Route::delete('home/{id}', function($id) {
-    Recipes::find($id)->delete();
-
-    return 204;
-});
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
