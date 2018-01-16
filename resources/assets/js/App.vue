@@ -28,6 +28,9 @@
         components:{
             navComponent:NavComponent,
             sidebarComponent:SidebarsComponent,
+        },
+        created(){
+            this.$store.dispatch('initRecipes');
         }
     }
 </script>
