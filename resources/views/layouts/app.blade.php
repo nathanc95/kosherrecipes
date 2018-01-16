@@ -29,11 +29,9 @@
 <div id="page" class="site">
     <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
 
-    @include('app.topbar')
+
 
 @include('app.branding')
-
-@include('app.navigation')
 
 @yield('content')
 <!-- site-footer -->
@@ -91,7 +89,8 @@
 </section><!-- #copyright -->
 
 </div><!-- #page -->
-
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="{{asset('js/app.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

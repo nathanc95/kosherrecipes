@@ -19,8 +19,16 @@ class RecipeTableSeeder extends Seeder
 
         for ($i = 0; $i < 30; $i++) {
             Recipes::create([
-                'reply' => $faker->sentence,
+                'vegan'=>$faker->word,
+                'cashrout'=>$faker->word,
+                'difficulty'=>$faker->word,
+                'holidays'=>$faker->word,
+                'time'=>$faker->word,
+                'ingredients'=>$faker->sentence,
                 'recipe' => $faker->paragraph,
+                'country'=>$faker->word,
+                'reply'=>$faker->sentence,
+                'picture'=>$faker->sentence,
             ]);
         }
     }

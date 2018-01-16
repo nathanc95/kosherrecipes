@@ -18,6 +18,10 @@ Route::get('/home',function(){
     return view('home');
 });
 
+Route::get('/sidebar',function(){
+    return view('sidebar');
+});
+
 Route::get('/about',function(){
     return view('about');
 });
@@ -52,6 +56,10 @@ Route::get('/single-sidebar',function(){
 
 Route::get('/typography',function(){
     return view('typography');
+});
+
+Route::get('/welcome',function(){
+    return view('welcome');
 });
 
 Auth::routes();
