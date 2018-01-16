@@ -16360,9 +16360,12 @@ var render = function() {
                               "router-link",
                               {
                                 staticClass: "menu-item",
-                                attrs: { to: "/about", activeClass: "active" }
+                                attrs: {
+                                  to: "/portfolio",
+                                  activeClass: "active"
+                                }
                               },
-                              [_c("a", [_vm._v("About Us")])]
+                              [_c("a", [_vm._v("Portfolio")])]
                             )
                           ],
                           1
@@ -17144,6 +17147,9 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_CategoryComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_CategoryComponent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_NavComponent_vue__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_NavComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_NavComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_portfolio_Portfolio_vue__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_portfolio_Portfolio_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_portfolio_Portfolio_vue__);
+
 
 
 
@@ -17156,6 +17162,9 @@ var routes = [{
 }, {
     path: '/home',
     component: __WEBPACK_IMPORTED_MODULE_1__components_recipes_RecipesComponent_vue___default.a
+}, {
+    path: '/portfolio',
+    component: __WEBPACK_IMPORTED_MODULE_4__components_portfolio_Portfolio_vue___default.a
 }, {
     path: '/category',
     component: __WEBPACK_IMPORTED_MODULE_2__components_CategoryComponent_vue___default.a
@@ -17508,11 +17517,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         addIngredients: function addIngredients() {
             var order = {
                 recipeId: this.recipe.id,
-                recipeName: this.recipe.name,
-                recipeTi: this.recipe.ti,
+                recipeTi: this.recipe.stockPrice,
                 quantity: this.quantity
             };
             console.log(order);
+            this.$store.dispatch('buyStock', order);
             this.quantity = 0;
         }
     }
@@ -17536,7 +17545,7 @@ var render = function() {
           _c("div", { staticClass: "entry-header" }, [
             _c("h2", { staticClass: "entry-title" }, [
               _c("a", { attrs: { href: "/single", rel: "bookmark" } }, [
-                _vm._v(_vm._s(_vm.recipe.name))
+                _vm._v(_vm._s(_vm.recipe.quantity))
               ])
             ]),
             _vm._v(" "),
@@ -17550,7 +17559,7 @@ var render = function() {
               _c("span", { staticClass: "entry-price" }, [
                 _c("span", { staticClass: "cat-link" }, [
                   _c("a", { attrs: { href: "category.blade.php" } }, [
-                    _vm._v(_vm._s(_vm.recipe.ti))
+                    _vm._v(_vm._s(_vm.recipe.stockPrice))
                   ])
                 ])
               ])
@@ -18151,8 +18160,8 @@ if (false) {
 /* unused harmony export install */
 /* unused harmony export mapState */
 /* unused harmony export mapMutations */
-/* unused harmony export mapGetters */
-/* unused harmony export mapActions */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return mapGetters; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return mapActions; });
 /* unused harmony export createNamespacedHelpers */
 /**
  * vuex v3.0.1
@@ -19098,6 +19107,8 @@ var index_esm = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_recipes__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_portfolio__ = __webpack_require__(79);
+
 
 
 
@@ -19106,9 +19117,10 @@ var index_esm = {
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
-   modules: {
-      recipes: __WEBPACK_IMPORTED_MODULE_2__modules_recipes__["a" /* default */]
-   }
+    modules: {
+        recipes: __WEBPACK_IMPORTED_MODULE_2__modules_recipes__["a" /* default */],
+        portfolio: __WEBPACK_IMPORTED_MODULE_3__modules_portfolio__["a" /* default */]
+    }
 }));
 
 /***/ }),
@@ -19134,7 +19146,7 @@ var actions = {
     buyStock: function buyStock(_ref, order) {
         var commit = _ref.commit;
 
-        commit();
+        commit('BUY_STOCK', order);
     },
     initRecipes: function initRecipes(_ref2) {
         var commit = _ref2.commit;
@@ -19166,7 +19178,373 @@ var getters = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ([{ id: 1, name: 'pasta', ti: 20 }, { id: 2, name: 'rice', ti: 30 }, { id: 3, name: 'lasagna', ti: 40 }]);
+/* harmony default export */ __webpack_exports__["a"] = ([{ id: 1, quantity: 50, stockPrice: 20 }, { id: 2, quantity: 50, stockPrice: 30 }, { id: 3, quantity: 50, stockPrice: 40 }]);
+
+/***/ }),
+/* 79 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var state = {
+    funds: 1000,
+    recipes: []
+};
+
+var mutations = {
+    'BUY_STOCK': function BUY_STOCK(state, _ref) {
+        var id = _ref.id,
+            quantity = _ref.quantity,
+            stockPrice = _ref.stockPrice;
+
+        var record = state.recipes.find(function (element) {
+            return element.id == id;
+        });
+        if (record) {
+            record.stockPrice += stockPrice;
+        } else {
+            state.recipes.push({
+                id: id,
+                stockPrice: stockPrice
+            });
+        }
+        state.funds += stockPrice * quantity;
+    },
+    'SELL_STOCK': function SELL_STOCK(state, _ref2) {
+        var id = _ref2.id,
+            quantity = _ref2.quantity,
+            stockPrice = _ref2.stockPrice;
+
+        var record = state.recipes.find(function (element) {
+            return element.id == id;
+        });
+        if (record.quantity > quantity) {
+            record.quantity -= quantity;
+        } else {
+            state.recipes.splice(state.recipes.indexOf(record), 1);
+        }
+        state.funds += stockPrice * quantity;
+    }
+};
+
+var actions = {
+    sellStock: function sellStock(_ref3, order) {
+        var commit = _ref3.commit;
+
+        commit('SELL_STOCK', order);
+    }
+};
+
+var getters = {
+    stockPortfolio: function stockPortfolio(state, getters) {
+        return state.recipes.map(function (recipe) {
+            var record = getters.recipes.find(function (element) {
+                return element.id == recipe.id;
+            });
+            return {
+                id: recipe.id,
+                quantity: recipe.quantity,
+                name: recipe.name,
+                price: recipe.price
+            };
+        });
+    },
+    funds: function funds(state) {
+        return state.funds;
+    }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: state,
+    mutations: mutations,
+    actions: actions,
+    getters: getters
+
+});
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(82)
+/* template */
+var __vue_template__ = __webpack_require__(81)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\portfolio\\Portfolio.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-11fc830d", Component.options)
+  } else {
+    hotAPI.reload("data-v-11fc830d", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    _vm._l(_vm.recipes, function(recipe) {
+      return _c("app-recipe", { attrs: { recipe: recipe } })
+    })
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-11fc830d", module.exports)
+  }
+}
+
+/***/ }),
+/* 82 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Recipe_vue__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Recipe_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Recipe_vue__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])({
+        recipes: 'stockPortfolio'
+    })),
+    components: {
+        appRecipe: __WEBPACK_IMPORTED_MODULE_1__Recipe_vue___default.a
+    }
+});
+
+/***/ }),
+/* 83 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(84)
+/* template */
+var __vue_template__ = __webpack_require__(85)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\portfolio\\Recipe.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-66c00dce", Component.options)
+  } else {
+    hotAPI.reload("data-v-66c00dce", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 84 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(73);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['recipe'],
+
+    data: function data() {
+        return {
+            quantity: 0
+        };
+    },
+
+    methods: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapActions */])({
+        placeSellOrder: 'sellStock'
+    }), {
+        sellStock: function sellStock() {
+            var order = {
+                id: this.recipe.id,
+                stockPrice: this.recipe.price,
+                quantity: this.recipe.quantity
+            };
+            this.placeSellOrder(order);
+        }
+    })
+});
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-sm-6 col-md-4" }, [
+    _c("div", { staticClass: "panel panel-success" }, [
+      _c("div", { staticClass: "panel-heading" }, [
+        _c("h3", { staticClass: "panel-title" }, [
+          _vm._v(
+            "\n                " + _vm._s(_vm.recipe.name) + "\n               "
+          ),
+          _c("small", [
+            _vm._v(
+              "(Price: " +
+                _vm._s(_vm.recipe.price) +
+                " | Quantity: " +
+                _vm._s(_vm.recipe.quantity) +
+                ")"
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "panel-body" }, [
+        _c("div", { staticClass: "pull-left" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.quantity,
+                expression: "quantity"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "number", placeholder: "Quantity" },
+            domProps: { value: _vm.quantity },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.quantity = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "pull-right" }, [
+          _c(
+            "button",
+            { staticClass: "btn btn-success", on: { click: _vm.sellStock } },
+            [_vm._v("Sell\n                ")]
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-66c00dce", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

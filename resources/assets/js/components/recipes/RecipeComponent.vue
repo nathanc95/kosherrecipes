@@ -11,7 +11,7 @@
                     <div class="entry-header">
                         <h2 class="entry-title">
                             <a href="/single"
-                               rel="bookmark">{{recipe.name}}</a>
+                               rel="bookmark">{{recipe.quantity}}</a>
                         </h2>
                         <div class="entry-meta">
                             <span class="posted-on">
@@ -32,7 +32,7 @@
                 </span>
                             <span class="entry-price">
                               <span class="cat-link">
-                                  <a href="category.blade.php">{{recipe.ti}}</a>
+                                  <a href="category.blade.php">{{recipe.stockPrice}}</a>
                               </span>
                             </span>
                         </div><!-- .entry-meta -->
@@ -88,11 +88,11 @@
                     addIngredients(){
                         const order={
                             recipeId:this.recipe.id,
-                            recipeName:this.recipe.name,
-                            recipeTi:this.recipe.ti,
+                            recipeTi:this.recipe.stockPrice,
                             quantity:this.quantity
                         };
                         console.log(order);
+                        this.$store.dispatch('buyStock',order);
                         this.quantity=0;
                     }
                 }

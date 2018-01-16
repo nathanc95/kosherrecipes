@@ -19,7 +19,7 @@
                                         <router-link to="/category" class="menu-item" activeClass="active"><a>Category</a></router-link>
                                     </li>
                                     <li class="menu-item">
-                                        <router-link to="/about" class="menu-item" activeClass="active"><a>About Us</a></router-link>
+                                        <router-link to="/portfolio" class="menu-item" activeClass="active"><a>Portfolio</a></router-link>
 
                                     <li class="menu-item">
                                     <li class="menu-item">
