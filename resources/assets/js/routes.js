@@ -1,38 +1,9 @@
-
-
-import RecipesComponent from './components/recipes/RecipesComponent.vue';
-import CategoryComponent from './components/CategoryComponent.vue';
-import NavComponent from './components/NavComponent.vue';
-import PortfolioComponent from './components/portfolio/Portfolio.vue';
-import HomeComponent from './components/Home.vue';
+import Home from './components/Home.vue';
+import Portfolio from './components/portfolio/Portfolio.vue';
+import Stocks from './components/stocks/Stocks.vue';
 
 export const routes = [
-    {
-        path:'/stock',
-        component: HomeComponent
-    },
-    {
-        path:'/',
-        component:RecipesComponent
-    },
-    {
-        path:'/',
-        component:NavComponent
-    },
-    {
-        path:'/home',
-        component:RecipesComponent
-    },
-    {
-        path:'/portfolio',
-        component:PortfolioComponent
-    },
-    {
-        path:'/category',
-        component:CategoryComponent
-    },
-    {
-        path:'/home',
-        component:NavComponent
-    }
+    { path: '/', component: Home },
+    { path: '/portfolio', component: Portfolio },
+    { path: '/stocks', component: Stocks }
 ];

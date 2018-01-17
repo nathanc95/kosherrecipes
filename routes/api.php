@@ -15,11 +15,11 @@ use App\Recipes;
 */
 
 
-    Route::get('recipes','RecipesController@index');
-    Route::get('recipes/{recipes}','RecipesController@show');
-    Route::post('recipes','RecipesController@store');
-    Route::put('recipes/{recipes}','RecipesController@update');
-    Route::delete('recipes/{recipes}','RecipesController@delete');
+    Route::get('stocks','RecipesController@index');
+    Route::get('stocks/{stocks}','RecipesController@show');
+    Route::post('stocks','RecipesController@store');
+    Route::put('stocks/{stocks}','RecipesController@update');
+    Route::delete('stocks/{stocks}','RecipesController@delete');
     Route::post('register','Auth\RegisterController@register');
     Route::post('login','Auth\LoginController@login');
     Route::post('logout','Auth\LoginController@logout');

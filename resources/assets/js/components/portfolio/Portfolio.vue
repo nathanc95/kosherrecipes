@@ -1,22 +1,21 @@
 <template>
    <div>
-<app-recipe v-for="recipe in recipes":recipe="recipe">
-</app-recipe>
+      <app-stock v-for="stock in stocks" :stock="stock"></app-stock>
    </div>
 </template>
 
 <script>
-    import{mapGetters} from 'vuex';
-    import Recipe from './Recipe.vue';
+    import {mapGetters} from 'vuex';
+    import Stock from './Stock.vue';
 
-    export default{
-        computed:{
+    export default {
+        computed: {
             ...mapGetters({
-                recipes:'stockPortfolio'
+                stocks: 'stockPortfolio'
             })
         },
-        components:{
-            appRecipe:Recipe
+        components: {
+            appStock: Stock
         }
     }
 </script>
