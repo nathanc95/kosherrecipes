@@ -24,6 +24,10 @@ const mutations={
             state.recipes.splice(state.recipes.indexOf(record),1);
         }
         state.funds += stockPrice * quantity;
+    },
+    'SET_PORTFOLIO'(state,portfolio){
+        state.funds=portfolio.funds;
+        state.recipes=portfolio.stockPortfolio ? portfolio.stockPortfolio:[];
     }
 };
 
@@ -33,19 +37,19 @@ const actions={
   }
 };
 
-const getters={
-    stockPortfolio(state,getters){
-        return state.recipes.map(recipe=>{
-            const record=getters.recipes.find(element=>element.id==recipe.id);
+const getters = {
+    stockPortfolio (state, getters) {
+        return state.recipes.map(recipe => {
+            const record = getters.recipes.find(element => element.id == recipe.id);
             return {
-                id:recipe.id,
-                quantity:recipe.quantity,
-                name:recipe.name,
-                price:recipe.price
+                id: recipe.id,
+                quantity: recipe.quantity,
+                name: record.name,
+                price: record.price
             }
         });
     },
-    funds(state){
+    funds (state) {
         return state.funds;
     }
 };

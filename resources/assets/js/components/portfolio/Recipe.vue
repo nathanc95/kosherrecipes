@@ -3,7 +3,6 @@
         <div class="panel panel-success">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                    {{recipe.name}}
                    <small>(Price: {{recipe.price}} | Quantity: {{recipe.quantity}})</small>
                 </h3>
             </div>
@@ -16,7 +15,8 @@
                 </div>
                 <div class="pull-right">
                     <button class="btn btn-success"
-                            @click="sellStock">Sell
+                            @click="sellStock"
+                            :disabled="insufficientQuantity">Sell
                     </button>
 
                 </div>
@@ -36,6 +36,12 @@
                 quantity:0
             }
         },
+        computed:{
+            insufficientQuantity(){
+                return this.quantity>this.recipe.quantity;
+            }
+        },
+
         methods:{
             ...mapActions({
                 placeSellOrder:'sellStock'

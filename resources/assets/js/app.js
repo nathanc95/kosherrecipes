@@ -1,13 +1,15 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-Vue.use(VueRouter);
-import VueAxios from 'vue-axios';
-import axios from 'axios';
-Vue.use(VueAxios, axios);
+import VueResource from 'vue-resource';
 import App from './App.vue';
 import {routes} from './routes';
 import store from './store/store';
 
+
+Vue.use(VueRouter);
+Vue.use(VueResource);
+
+Vue.http.options.root='https://vuejs-stock-trader-6f77f.firebaseio.com/';
 
 const router=new VueRouter({
     mode:'history',

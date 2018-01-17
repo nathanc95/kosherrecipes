@@ -15,6 +15,9 @@
                                     <li class="menu-item current-menu-item">
                                         <router-link to="/home" class="menu-item" activeClass="active"><a>Home</a></router-link>
                                     </li>
+                                    <li class="menu-item current-menu-item">
+                                        <router-link to="#" class="menu-item" activeClass="active" @click="endDay"><a>End Day</a></router-link>
+                                    </li>
                                     <li class="menu-item">
                                         <router-link to="/category" class="menu-item" activeClass="active"><a>Category</a></router-link>
                                     </li>
@@ -28,7 +31,17 @@
                                     <li class="menu-item" >
                                         <router-link to="/logout" class="menu-item" activeClass="active"><a>Login</a></router-link>
                                     </li>
+
+                                    <li class="menu-item" >
+                                        <router-link to="/stock" class="menu-item" activeClass="active"><a>Stock</a></router-link>
+                                    </li>
+
+                                    <li class="menu-item" >
+                                        <router-link to="#" class="menu-item" activeClass="active" @click="saveData"><a>Save Data</a></router-link>
+                                    </li>
+                                    <strong class="navbar-text navbar-right"> Funds:{{funds}}</strong>
                                 </ul>
+
                             </div><!-- .menu-container -->
                         </div><!-- .col-md-12 -->
                     </div><!-- .row -->
@@ -39,9 +52,34 @@
 </template>
 
 <script>
+    import {mapActions} from 'vuex';
     export default {
-        mounted() {
-            console.log('Component mounted.')
+        computed: {
+           funds(){
+               return this.$store.getters.funds;
+            }
+        },
+        methods:{
+            ...mapActions({
+                randomizeRecipes:'randomizeRecipes',
+                fetchData:'loadData'
+            }),
+            endDay(){
+                this.randomizeRecipes();
+            },
+            saveData(){
+                const data={
+                    funds:this.$store.getters.funds,
+                    stockPortfolio:this.$store.getters.stockPortfolio,
+                    recipes:this.$store.getters.recipes
+
+
+                };
+                this.$http.put('data.json',data);
+            },
+            loadData(){
+
+            }
         }
     }
 </script>

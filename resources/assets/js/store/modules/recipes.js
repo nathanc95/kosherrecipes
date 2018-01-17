@@ -9,7 +9,9 @@ const mutations={
       state.recipes=recipes;
   },
     'RND_RECIPES'(state){
-
+    state.recipes.forEach(recipe=>{
+    recipe.price=Math.round(recipe.price *(1 + Math.random()- 0.5));
+});
     }
 };
 

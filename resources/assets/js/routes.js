@@ -1,14 +1,23 @@
 
-import ExampleComponent from './components/ExampleComponent.vue';
+
 import RecipesComponent from './components/recipes/RecipesComponent.vue';
 import CategoryComponent from './components/CategoryComponent.vue';
 import NavComponent from './components/NavComponent.vue';
 import PortfolioComponent from './components/portfolio/Portfolio.vue';
+import HomeComponent from './components/Home.vue';
 
 export const routes = [
     {
-        path:'/welcome',
-        component: ExampleComponent
+        path:'/stock',
+        component: HomeComponent
+    },
+    {
+        path:'/',
+        component:RecipesComponent
+    },
+    {
+        path:'/',
+        component:NavComponent
     },
     {
         path:'/home',
